@@ -3,7 +3,7 @@ import {HomeIcon, NoteIcon, SearchIcon} from "./Icon";
 import {AddPage} from "./AddPage";
 import React from "react";
 
-export const SideBar = ({pages, currentPage, handlePageChange}) => {
+export const SideBar = ({pages, currentPage, handlePageChange, addPage}) => {
     return (
         <div className="flex flex-col bg-[#f7f7f5] max-w-[15rem] p-1 min-h-screen box-border">
             <Profile/>
@@ -29,7 +29,7 @@ export const SideBar = ({pages, currentPage, handlePageChange}) => {
                         {page.title}
                     </div>
                 ))}
-                <AddPage addPage={pages, setPages, setCurrentPage}/>
+                <AddPage addPage={addPage}/>
             </div>
         </div>
     )
