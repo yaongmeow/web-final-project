@@ -1,6 +1,7 @@
 import Search from '../svg/Search.svg'
 import Home from '../svg/Home.svg'
 import Note from '../svg/Note.svg'
+import Trash from '../svg/Trash.svg'
 
 export const SearchIcon = () => {
     return (
@@ -26,8 +27,16 @@ export const HomeIcon = () => {
 
 export const NoteIcon = () => {
     return (
-        <div className="mr-2 h-full">
+        <div className="h-full">
             <Note className={"h-full fill-current"}/>
+        </div>
+    )
+}
+
+export const TrashIcon = () => {
+    return (
+        <div className="mr-0 h-full">
+            <Trash className={"h-full fill-current"}/>
         </div>
     )
 }

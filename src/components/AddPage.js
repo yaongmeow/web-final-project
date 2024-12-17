@@ -1,5 +1,6 @@
-import Note from '../svg/Note.svg'
 import axios from "axios";
+import {NoteIcon} from "@/components/Icon";
+import React from "react";
 
 export const AddPage = ({pages, setPages, setCurrentPage}) => {
     const addPage = async () => {
@@ -16,11 +17,13 @@ export const AddPage = ({pages, setPages, setCurrentPage}) => {
     return (
         <div
             onClick={addPage}
-            className="flex items-center w-full h-10 px-3 py-1 text-sm font-semibold text-[#5f5e5b] hover:bg-gray-200 rounded-md cursor-pointer" >
-            <div className="mr-2 h-full">
-                <Note className="h-full fill-current"/>
+            className="flex items-center justify-between w-full h-10 text-sm font-semibold text-[#5f5e5b] hover:bg-gray-200 rounded-md cursor-pointer">
+            <div
+                className={"flex items-center w-full h-10 text-sm font-semibold rounded-md cursor-pointer text-[#5f5e5b]"}
+            >
+                <NoteIcon/>
+                AddPage
             </div>
-            Add Page
-        </div >
+        </div>
     )
 }

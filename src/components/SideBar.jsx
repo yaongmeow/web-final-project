@@ -1,5 +1,5 @@
 import {Profile} from "./Profile";
-import {HomeIcon, NoteIcon, SearchIcon} from "./Icon";
+import {HomeIcon, NoteIcon, SearchIcon, TrashIcon} from "./Icon";
 import {AddPage} from "./AddPage";
 import React from "react";
 
@@ -19,14 +19,19 @@ export const SideBar = ({pages, currentPage, handlePageChange, addPage}) => {
                     <div
                         key={page.id}
                         onClick={() => handlePageChange(index)}
-                        className={`flex items-center w-full h-10 px-3 py-1 text-sm font-semibold rounded-md cursor-pointer text-[#5f5e5b] ${
+                        className={`flex items-center justify-between w-full h-10 text-sm font-semibold rounded-md cursor-pointer text-[#5f5e5b] ${
                             currentPage === page.id
                                 ? "bg-gray-200" // 현재 페이지는 어둡게 표시
                                 : "hover:bg-gray-200"
                         }`}
                     >
-                        <NoteIcon/>
-                        {page.title}
+                        <div
+                            className={"flex items-center w-full h-10 text-sm font-semibold rounded-md cursor-pointer text-[#5f5e5b]"}
+                        >
+                            <NoteIcon/>
+                            {page.title}
+                        </div>
+                        <TrashIcon/>
                     </div>
                 ))}
                 <AddPage addPage={addPage}/>
