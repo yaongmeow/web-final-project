@@ -83,6 +83,8 @@ export default function App() {
             currentPage={currentPage}
             handlePageChange={handlePageChange}
             addPage={addPage}
+            setPages={setPages}
+            setCurrentPage={setCurrentPage}
         />
         <div className="flex-2 bg-white justify-center flex-grow flex">
           <Editor

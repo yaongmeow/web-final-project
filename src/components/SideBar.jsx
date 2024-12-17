@@ -3,7 +3,7 @@ import {HomeIcon, NoteIcon, SearchIcon, TrashIcon} from "./Icon";
 import {AddPage} from "./AddPage";
 import React, {useState} from "react";
 
-export const SideBar = ({pages, currentPage, handlePageChange, addPage}) => {
+export const SideBar = ({pages, currentPage, handlePageChange, setPages, setCurrentPage}) => {
     const [isHovered, setIsHovered] = useState(false);
 
     return (
@@ -39,7 +39,7 @@ export const SideBar = ({pages, currentPage, handlePageChange, addPage}) => {
                         {isHovered && <TrashIcon />}
                     </div>
                 ))}
-                <AddPage addPage={addPage}/>
+                <AddPage pages= {pages} setPages={setPages} setCurrentPage={setCurrentPage}/>
             </div>
         </div>
     )
