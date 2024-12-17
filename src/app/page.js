@@ -16,7 +16,7 @@ export default function App() {
       try {
         const { data } = await axios.get("/api/notes");
         setPages(data);
-        setCurrentPage(data.length ? data[data.length - 1].id : 0); // id 최대값으로 설정
+        setCurrentPage(0);
       } catch (error) {
         console.error("Error fetching notes:", error);
       }
@@ -24,20 +24,26 @@ export default function App() {
     fetchNotes();
   }, []);
 
+  useEffect(() => {
+    console.log("Updated pages:", pages);
+    console.log("페이지 길이:", pages.length);
+    console.log("current page: ", currentPage)
+  }, [pages]);
+
   const addPage = async () => {
     const newNote = { title: `Untitled ${pages.length + 1}`, content: "" };
 
     try {
       const { data } = await axios.post("/api/notes", newNote);
       setPages([...pages, data]);
-      setCurrentPage(data.id); // 새 노트의 id로 이동
+      setCurrentPage(pages.length - 1); // 새 노트의 id로 이동
     } catch (error) {
       console.error("Error creating note:", error);
     }
   };
 
   const handleTitleChange = async (newTitle) => {
-    const updatedNote = { ...pages[currentPage - 1], title: newTitle };
+    const updatedNote = { ...pages[currentPage], title: newTitle };
     setPages(
         pages.map((page) =>
             page.id === updatedNote.id ? updatedNote : page
@@ -52,7 +58,7 @@ export default function App() {
   };
 
   const handleContentChange = async (newContent) => {
-    const updatedNote = { ...pages[currentPage - 1], content: newContent };
+    const updatedNote = { ...pages[currentPage], content: newContent };
     setPages(
         pages.map((page) =>
             page.id === updatedNote.id ? updatedNote : page
@@ -67,7 +73,7 @@ export default function App() {
   };
 
   const handlePageChange = (index) => {
-    setCurrentPage(pages[index].id);
+    setCurrentPage(index);
     setIsEditingTitle(false);
   };
 
@@ -96,6 +102,24 @@ export default function App() {
               handleContentChange={handleContentChange}
           />
         </div>
+
+        {/*<div className="flex-2 bg-white justify-center flex-grow flex">*/}
+        {/*  {pages.length > 0 && currentPage ? (*/}
+        {/*      <Editor*/}
+        {/*          pages={pages}*/}
+        {/*          currentPage={currentPage}*/}
+        {/*          isEditingTitle={isEditingTitle}*/}
+        {/*          toggleEditingTitle={toggleEditingTitle}*/}
+        {/*          handleTitleChange={handleTitleChange}*/}
+        {/*          handleContentChange={handleContentChange}*/}
+        {/*      />*/}
+        {/*  ) : (*/}
+        {/*      <div className="flex items-center justify-center text-gray-500">*/}
+        {/*        Loading...*/}
+        {/*      </div>*/}
+        {/*  )}*/}
+        {/*</div>*/}
+
       </div>
     </div>
   );

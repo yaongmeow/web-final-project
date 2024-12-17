@@ -33,10 +33,12 @@ export const NoteIcon = () => {
     )
 }
 
-export const TrashIcon = () => {
+export const TrashIcon = (props) => {
     return (
-        <div className="mr-0 h-full group">
-            <Trash className={"hidden h-full fill-current group-hover:block"}/>
+        <div
+            {...props}
+            className="mr-0 h-full group cursor-pointer">
+            <Trash className={"opacity-0 group-hover:opacity-100 h-full fill-current cursor-pointer"}/>
         </div>
     )
 }

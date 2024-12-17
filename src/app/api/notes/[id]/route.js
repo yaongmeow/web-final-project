@@ -24,9 +24,11 @@ export async function PUT(req, { params }) {
 
 export async function DELETE(req, { params }) {
   const { id } = await params;
+  console.log(`id ${id} deleted`)
+  const noteId = parseInt(id, 10);
   try {
-    await db.note.delete({ where: { id } });
-    return new Response(null, { status: 200 })
+    await db.note.delete({ where: { id: noteId } });
+    return new Response( JSON.stringify({ message: `Note ${noteId} deleted` }), { status: 200 })
   } catch (error) {
     console.error("Error deleting note:", error);
     return new Response(
