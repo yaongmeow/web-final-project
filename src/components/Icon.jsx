@@ -35,8 +35,8 @@ export const NoteIcon = () => {
 
 export const TrashIcon = () => {
     return (
-        <div className="mr-0 h-full">
-            <Trash className={"h-full fill-current"}/>
+        <div className="mr-0 h-full group">
+            <Trash className={"hidden h-full fill-current group-hover:block"}/>
         </div>
     )
 }

@@ -4,8 +4,6 @@ import {AddPage} from "./AddPage";
 import React, {useState} from "react";
 
 export const SideBar = ({pages, currentPage, handlePageChange, setPages, setCurrentPage}) => {
-    const [isHovered, setIsHovered] = useState(false);
-
     return (
         <div className="flex flex-col bg-[#f7f7f5] max-w-[15rem] p-1 min-h-screen box-border">
             <Profile/>
@@ -21,9 +19,7 @@ export const SideBar = ({pages, currentPage, handlePageChange, setPages, setCurr
                     <div
                         key={page.id}
                         onClick={() => handlePageChange(index)}
-                        onMouseEnter={() => setIsHovered(true)}  // hover 시작
-                        onMouseLeave={() => setIsHovered(false)}
-                        className={`flex items-center justify-between w-full h-10 text-sm font-semibold rounded-md cursor-pointer text-[#5f5e5b] ${
+                        className={`group flex items-center justify-between w-full h-10 text-sm font-semibold rounded-md cursor-pointer text-[#5f5e5b] ${
                             currentPage === page.id
                                 ? "bg-gray-200" // 현재 페이지는 어둡게 표시
                                 : "hover:bg-gray-200"
@@ -35,8 +31,7 @@ export const SideBar = ({pages, currentPage, handlePageChange, setPages, setCurr
                             <NoteIcon/>
                             {page.title}
                         </div>
-                        {/*<TrashIcon className="hidden group-hover:block" />*/}
-                        {isHovered && <TrashIcon />}
+                        <TrashIcon className={"group"}/>
                     </div>
                 ))}
                 <AddPage pages= {pages} setPages={setPages} setCurrentPage={setCurrentPage}/>
