@@ -5,21 +5,27 @@ export async function GET(request) {
   const content = searchParams.get("content");
   const userId = searchParams.get("userId");
   try {
+    console.log("api:", content, userId)
     let notes
     if (content != null && typeof content !== "undefined"){
-      notes = await db.note.findMany({ where: { title: { contains: content }, userId: userId },orderBy: { id: "asc" } });
+      notes = await db.note.findMany({ where: { title: { contains: content }, userId: parseInt(userId, 10) },orderBy: { id: "asc" } });
       return new Response(JSON.stringify(notes), { status: 200 });
     }
     else {
-      notes = await db.note.findMany({ where: { userId: userId },orderBy: {id: "asc"}});
+      if (!userId) {
+        throw new Error("Invalid userId provided.");
+      }
+
+      console.log("여기", userId);
+      notes = await db.note.findMany({ where: { userId: parseInt(userId, 10) },orderBy: {id: "asc"}});
+      console.log("노트들:", notes);
     }
     if (notes.length === 0) {
-      const newNote = await db.note.create({ data: { title: "", content: "" } });
+      const newNote = await db.note.create({ data: { title: "Untitled1", content: "", userId:parseInt(userId, 10) } });
       return new Response(JSON.stringify([newNote]), { status: 200 });
     }
     return new Response(JSON.stringify(notes), { status: 200 });
   } catch (error) {
-    console.error("Error fetching notes:", error);
     return new Response(JSON.stringify({ message: "Failed to fetch notes" }), { status: 500 });
   }
 }

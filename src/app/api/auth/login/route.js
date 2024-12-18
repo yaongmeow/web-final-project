@@ -21,7 +21,8 @@ export async function POST(req) {
         }
 
         const cookieStore = cookies();
-        cookieStore.set('username', username, { httpOnly: true, path: '/', maxAge: 3600 });
+        cookieStore.set('username', username, { httpOnly: false, path: '/', maxAge: 3600 });
+        cookieStore.set('userId', user.id, { httpOnly: false, path: '/', maxAge: 3600 });
 
         return new Response(JSON.stringify({ message: "Welcome!" }), { status: 200 });
     } catch (error) {

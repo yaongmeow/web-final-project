@@ -2,6 +2,7 @@ import Search from '../svg/Search.svg'
 import Home from '../svg/Home.svg'
 import Note from '../svg/Note.svg'
 import Trash from '../svg/Trash.svg'
+import Logout from '../svg/Logout.svg'
 
 export const SearchIcon = () => {
     return (
@@ -25,6 +26,20 @@ export const HomeIcon = () => {
     )
 }
 
+export const LogoutIcon =({onClick})=>{
+    return (
+        <div
+            className="group text-sm leading-5 py-1 px-3 flex rounded-[.375rem] font-semibold items-center w-full h-8 text-[#5f5e5b] fill-current cursor-pointer"
+            onClick={onClick}
+        >
+            <div style={{height: 83.333333 + '%', marginRight: .5 + 'rem'}}>
+                <Logout className={"h-full"}/>
+            </div>
+            Logout
+        </div>
+    )
+}
+
 export const NoteIcon = () => {
     return (
         <div className="h-full">
@@ -38,7 +53,7 @@ export const TrashIcon = (props) => {
         <div
             {...props}
             className="mr-0 h-full group cursor-pointer">
-            <Trash className={"opacity-0 group-hover:opacity-100 h-full fill-current cursor-pointer"}/>
+        <Trash className={"opacity-0 group-hover:opacity-100 h-full fill-current cursor-pointer"}/>
         </div>
     )
 }

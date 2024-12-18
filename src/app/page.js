@@ -1,22 +1,37 @@
 "use client";
 
 import React, {useEffect, useState} from "react";
-import { useRouter } from "next/navigation";
 import axios from "axios";
 
 import {SideBar} from "@/components/SideBar";
 import {Editor} from "@/components/Editor";
+import Cookies from "js-cookie";
+
 
 
 export default function App() {
   const [pages, setPages] = useState([]); // DB에서 가져온 노트
   const [currentPage, setCurrentPage] = useState(0); // 현재 페이지 인덱스
   const [isEditingTitle, setIsEditingTitle] = useState(false); // 제목 편집 상태
+  const [username, setUsername] = useState("");
+  const [userId, setUserId] = useState(0);
 
   useEffect(() => {
+    // js-cookie를 사용해 쿠키 읽기
+    const usernameCookie = Cookies.get("username");
+    if (usernameCookie) {
+      setUsername(usernameCookie);
+    }
+
+    const userIdCookie = Cookies.get("userId");
+    console.log("z쿠키:", userIdCookie)
+    if (userIdCookie) {
+      setUsername(userIdCookie);
+    }
+
     const fetchNotes = async () => {
       try {
-        const { data } = await axios.get("/api/notes");
+        const { data } = await axios.get(`/api/notes?userId=${userIdCookie}`);
         setPages(data);
         setCurrentPage(0);
       } catch (error) {
@@ -24,7 +39,23 @@ export default function App() {
       }
     };
     fetchNotes();
+
   }, []);
+
+
+  //
+  // useEffect(() => {
+  //   const fetchNotes = async () => {
+  //     try {
+  //       const { data } = await axios.get(`/api/notes?userId=${userId}`);
+  //       setPages(data);
+  //       setCurrentPage(0);
+  //     } catch (error) {
+  //       console.error("Error fetching notes:", error);
+  //     }
+  //   };
+  //   fetchNotes();
+  // }, []);
 
   useEffect(() => {
     console.log("Updated pages:", pages);
@@ -42,7 +73,7 @@ export default function App() {
     try {
       const { data } = await axios.post("/api/notes", newNote);
       setPages([...pages, data]);
-      setCurrentPage(pages.length - 1); // 새 노트의 id로 이동
+      setCurrentPage(pages.length - 1);
     } catch (error) {
       console.error("Error creating note:", error);
     }

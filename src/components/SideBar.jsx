@@ -1,12 +1,14 @@
 import {Profile} from "./Profile";
-import {HomeIcon, NoteIcon, SearchIcon, TrashIcon} from "./Icon";
+import {HomeIcon, LogoutIcon, NoteIcon, SearchIcon, TrashIcon} from "./Icon";
 import {AddPage} from "./AddPage";
 import axios from "axios";
 import Search from "@/svg/Search.svg";
 import SearchInput from "@/components/SearchInput";
 import {useEffect, useState} from "react";
+import {useRouter} from "next/navigation";
 
 export const SideBar = ({session, pages, currentPage, handlePageChange, setPages, setCurrentPage}) => {
+    const router = useRouter();
     const deletePage = async (pageId) => {
         try {
             await axios.delete(`/api/notes/${pageId}`);
@@ -28,11 +30,25 @@ export const SideBar = ({session, pages, currentPage, handlePageChange, setPages
         }
 
     };
+
+    const handleLogout = async () => {
+        console.log("Logout");
+        const result = await axios.delete(`/api/auth/logout`);
+        if (result.status == 200){
+            alert("로그아웃 되었습니다.");
+            router.push("/login");
+        }
+    }
+
     return (
         <div className="flex flex-col bg-[#f7f7f5] max-w-[15rem] p-1 min-h-screen box-border">
             <Profile/>
             <div className={"flex flex-col justify-items-center"}>
                 <HomeIcon/>
+                <LogoutIcon
+                    onClick={handleLogout}
+                    className={"cursor-pointer group"}
+                />
                 <SearchInput
                     session={session}
                     pages={pages}

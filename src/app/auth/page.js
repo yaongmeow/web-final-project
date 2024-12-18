@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-// import {router} from "@/app/page"
 
 const AuthForm = () => {
     const [isLogin, setIsLogin] = useState(true); // 로그인/회원가입 상태 토글
@@ -132,8 +131,6 @@ const AuthForm = () => {
                         </div>
 
                     )}
-
-                    {/* 제출 버튼 */}
                     <button
                         type="submit"
                         className="w-full py-2 mt-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"
@@ -141,8 +138,6 @@ const AuthForm = () => {
                         {isLogin ? "로그인" : "회원가입"}
                     </button>
                 </form>
-
-                {/* 로그인/회원가입 전환 버튼 */}
                 <p className="text-sm text-gray-600 mt-4 text-center">
                     {isLogin
                         ? "계정이 없으신가요?"
