@@ -1,31 +1,48 @@
 "use client";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const AuthForm = () => {
     const [isLogin, setIsLogin] = useState(true); // 로그인/회원가입 상태 토글
     const [formData, setFormData] = useState({
-        email: "",
+        username: "",
         password: "",
         confirmPassword: "",
+        name: ""
     });
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (isLogin) {
             console.log("로그인 데이터:", formData);
-            // 로그인 로직 추가
+            const result = await axios.post(
+                "/api/auth/login", {"username":formData.username, "password":formData.password}
+            )
+            if(result.status == 200){
+                alert("로그인 성공! 노트 페이지로 이동합니다.")
+                navigate("/");
+            }
         } else {
             if (formData.password !== formData.confirmPassword) {
                 alert("비밀번호가 일치하지 않습니다.");
                 return;
             }
             console.log("회원가입 데이터:", formData);
-            // 회원가입 로직 추가
+            const result = await axios.post(
+                "/api/auth/signup", {"username":formData.username, "name":formData.name, "password":formData.password}
+            )
+
+            if (result.status == 200) {
+                alert("로그인 페이지로 이동합니다.")
+                setIsLogin((prev) => !prev);
+            }
         }
     };
 
@@ -38,15 +55,15 @@ const AuthForm = () => {
                 <form onSubmit={handleSubmit}>
                     {/* 이메일 입력 */}
                     <div className="mb-4">
-                        <label className="block text-gray-600 mb-2" htmlFor="email">
-                            이메일
+                        <label className="block text-gray-600 mb-2" htmlFor="username">
+                            아이디
                         </label>
                         <input
-                            type="email"
-                            id="email"
-                            name="email"
+                            type="text"
+                            id="username"
+                            name="username"
                             placeholder="이메일을 입력하세요"
-                            value={formData.email}
+                            value={formData.username}
                             onChange={handleChange}
                             required
                             className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -90,6 +107,29 @@ const AuthForm = () => {
                                 className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                             />
                         </div>
+
+                    )}
+
+                    {!isLogin && (
+                        <div className="mb-4">
+                            <label
+                                className="block text-gray-600 mb-2"
+                                htmlFor="name"
+                            >
+                                이름
+                            </label>
+                            <input
+                                type="text"
+                                id="name"
+                                name="name"
+                                placeholder="이름을 입력하세요"
+                                value={formData.name}
+                                onChange={handleChange}
+                                required={!isLogin}
+                                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                        </div>
+
                     )}
 
                     {/* 제출 버튼 */}
