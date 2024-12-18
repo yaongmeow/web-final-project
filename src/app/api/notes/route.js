@@ -33,10 +33,10 @@ export async function GET(request) {
 export async function POST(req) {
   try {
     const body = await req.json();
-    const { title, content } = body;
-
+    const { title, content, userId } = body;
+    console.log("api:", content, userId)
     const newNote = await db.note.create({
-      data: { title, content },
+      data: { title, content, userId: parseInt(userId, 10) },
     });
     return new Response(JSON.stringify(newNote), { status: 201 });
   } catch (error) {

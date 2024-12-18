@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from "react";
 import Search from "@/svg/Search.svg";
+import {Cookie} from "js-cookie";
 
-export default function SearchInput(session, pages, setPages, handlePageChange) {
+export default function SearchInput(session, pages, setPages, currentPage, setCurrentPage, handlePageChange) {
     const [query, setQuery] = useState(""); // 입력값 상태
     const [debouncedQuery, setDebouncedQuery] = useState(query); // 디바운스된 입력값
     const [results, setResults] = useState([]); // 검색 결과 상태
@@ -24,7 +25,8 @@ export default function SearchInput(session, pages, setPages, handlePageChange) 
             }
 
             try {
-                const response = await fetch(`/api/notes?content=${debouncedQuery}&userId=${session.user.id}`, {});
+                const userId = Cookie.get("userId");
+                const response = await fetch(`/api/notes?content=${debouncedQuery}&userId=${userId}`, {});
                 const data = await response.json();
                 const tempList = [];
                 for (const d of data) {

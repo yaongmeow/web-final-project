@@ -2,9 +2,10 @@ import axios from "axios";
 import {NoteIcon} from "@/components/Icon";
 import React from "react";
 
-export const AddPage = ({pages, setPages, setCurrentPage}) => {
+export const AddPage = ({pages, setPages, setCurrentPage, userId}) => {
     const addPage = async () => {
-        const newNote = { title: `Untitled ${pages.length + 1}`, content: "" };
+        console.log("adding page", userId);
+        const newNote = { title: `Untitled ${pages.length + 1}`, content: "", userId };
         try {
             const { data } = await axios.post("/api/notes", newNote);
             setPages([...pages, data]);

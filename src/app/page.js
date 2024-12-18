@@ -26,7 +26,7 @@ export default function App() {
     const userIdCookie = Cookies.get("userId");
     console.log("z쿠키:", userIdCookie)
     if (userIdCookie) {
-      setUsername(userIdCookie);
+      setUserId(userIdCookie);
     }
 
     const fetchNotes = async () => {
@@ -128,6 +128,8 @@ export default function App() {
             addPage={addPage}
             setPages={setPages}
             setCurrentPage={setCurrentPage}
+            userId={userId}
+            username={username}
         />
         <div className="flex-2 bg-white justify-center flex-grow flex">
           <Editor

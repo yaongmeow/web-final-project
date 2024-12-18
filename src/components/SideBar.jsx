@@ -6,8 +6,9 @@ import Search from "@/svg/Search.svg";
 import SearchInput from "@/components/SearchInput";
 import {useEffect, useState} from "react";
 import {useRouter} from "next/navigation";
+import {Cookie} from "js-cookie";
 
-export const SideBar = ({session, pages, currentPage, handlePageChange, setPages, setCurrentPage}) => {
+export const SideBar = ({session, pages, currentPage, handlePageChange, setPages, setCurrentPage, userId, username}) => {
     const router = useRouter();
     const deletePage = async (pageId) => {
         try {
@@ -42,7 +43,9 @@ export const SideBar = ({session, pages, currentPage, handlePageChange, setPages
 
     return (
         <div className="flex flex-col bg-[#f7f7f5] max-w-[15rem] p-1 min-h-screen box-border">
-            <Profile/>
+            <Profile
+                username={username}
+            />
             <div className={"flex flex-col justify-items-center"}>
                 <HomeIcon/>
                 <LogoutIcon
@@ -53,6 +56,8 @@ export const SideBar = ({session, pages, currentPage, handlePageChange, setPages
                     session={session}
                     pages={pages}
                     setPages={setPages}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
                     handlePageChange={handlePageChange}
                 />
             </div>
@@ -86,7 +91,7 @@ export const SideBar = ({session, pages, currentPage, handlePageChange, setPages
                         />
                     </div>
                 ))}
-                <AddPage pages= {pages} setPages={setPages} setCurrentPage={setCurrentPage}/>
+                <AddPage pages= {pages} setPages={setPages} setCurrentPage={setCurrentPage} userId={userId} />
             </div>
         </div>
     )
