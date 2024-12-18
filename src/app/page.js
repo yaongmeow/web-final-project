@@ -1,19 +1,17 @@
 "use client";
 
 import React, {useEffect, useState} from "react";
+import { useRouter } from "next/navigation";
 import axios from "axios";
 
 import {SideBar} from "@/components/SideBar";
 import {Editor} from "@/components/Editor";
 
-import {auth} from "@/auth";
 
-
-export default async function App() {
+export default function App() {
   const [pages, setPages] = useState([]); // DB에서 가져온 노트
   const [currentPage, setCurrentPage] = useState(0); // 현재 페이지 인덱스
   const [isEditingTitle, setIsEditingTitle] = useState(false); // 제목 편집 상태
-  const session = await auth();
 
   useEffect(() => {
     const fetchNotes = async () => {
@@ -92,59 +90,24 @@ export default async function App() {
   return (
     <div className="m-0 leading-inherit antialiased">
       <div className="flex">
-        {/*<SideBar*/}
-        {/*    pages={pages}*/}
-        {/*    currentPage={currentPage}*/}
-        {/*    handlePageChange={handlePageChange}*/}
-        {/*    addPage={addPage}*/}
-        {/*    setPages={setPages}*/}
-        {/*    setCurrentPage={setCurrentPage}*/}
-        {/*/>*/}
-        {session ? (
-            <SideBar
-                session={session}
-                pages={pages}
-                currentPage={currentPage}
-                handlePageChange={handlePageChange}
-                addPage={addPage}
-                setPages={setPages}
-                setCurrentPage={setCurrentPage}
-            />
-        ) : (
-            <div className="flex flex-col bg-[#f7f7f5] max-w-[15rem] p-1 min-h-screen box-border">
-              Please Log in
-            </div>
-        )}
-
-        {/*<div className="flex-2 bg-white justify-center flex-grow flex">*/}
-        {/*  <Editor*/}
-        {/*      pages={pages}*/}
-        {/*      currentPage={currentPage}*/}
-        {/*      isEditingTitle={isEditingTitle}*/}
-        {/*      toggleEditingTitle={toggleEditingTitle}*/}
-        {/*      handleTitleChange={handleTitleChange}*/}
-        {/*      handleContentChange={handleContentChange}*/}
-        {/*  />*/}
-        {/*</div>*/}
-
+        <SideBar
+            pages={pages}
+            currentPage={currentPage}
+            handlePageChange={handlePageChange}
+            addPage={addPage}
+            setPages={setPages}
+            setCurrentPage={setCurrentPage}
+        />
         <div className="flex-2 bg-white justify-center flex-grow flex">
-          {session ? (
-              <Editor
-                  session={session}
-                  pages={pages}
-                  currentPage={currentPage}
-                  isEditingTitle={isEditingTitle}
-                  toggleEditingTitle={toggleEditingTitle}
-                  handleTitleChange={handleTitleChange}
-                  handleContentChange={handleContentChange}
-              />
-          ) : (
-              <div className="flex items-center justify-center text-gray-500">
-                Please Log in
-              </div>
-          )}
+          <Editor
+              pages={pages}
+              currentPage={currentPage}
+              isEditingTitle={isEditingTitle}
+              toggleEditingTitle={toggleEditingTitle}
+              handleTitleChange={handleTitleChange}
+              handleContentChange={handleContentChange}
+          />
         </div>
-
       </div>
     </div>
   );

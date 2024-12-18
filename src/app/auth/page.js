@@ -1,7 +1,8 @@
 "use client";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 import axios from "axios";
+// import {router} from "@/app/page"
 
 const AuthForm = () => {
     const [isLogin, setIsLogin] = useState(true); // 로그인/회원가입 상태 토글
@@ -11,7 +12,7 @@ const AuthForm = () => {
         confirmPassword: "",
         name: ""
     });
-    const navigate = useNavigate();
+    const router = useRouter();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -27,7 +28,7 @@ const AuthForm = () => {
             )
             if(result.status == 200){
                 alert("로그인 성공! 노트 페이지로 이동합니다.")
-                navigate("/");
+                router.push("/");
             }
         } else {
             if (formData.password !== formData.confirmPassword) {
