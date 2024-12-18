@@ -130,6 +130,7 @@ export default function App() {
             setCurrentPage={setCurrentPage}
             userId={userId}
             username={username}
+            setIsEditingTitle={setIsEditingTitle}
         />
         <div className="flex-2 bg-white justify-center flex-grow flex">
           <Editor

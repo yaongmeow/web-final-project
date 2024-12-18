@@ -1,15 +1,21 @@
 import {Profile} from "./Profile";
-import {HomeIcon, LogoutIcon, NoteIcon, SearchIcon, TrashIcon} from "./Icon";
+import {HomeIcon, LogoutIcon, NoteIcon, TrashIcon} from "./Icon";
 import {AddPage} from "./AddPage";
 import axios from "axios";
-import Search from "@/svg/Search.svg";
 import SearchInput from "@/components/SearchInput";
-import {useEffect, useState} from "react";
 import {useRouter} from "next/navigation";
-import {Cookie} from "js-cookie";
+import {useEffect} from "react";
 
-export const SideBar = ({session, pages, currentPage, handlePageChange, setPages, setCurrentPage, userId, username}) => {
+
+export const SideBar = ({pages, currentPage, handlePageChange, setPages, setCurrentPage, userId, username, setIsEditingTitle}) => {
     const router = useRouter();
+
+    useEffect(() => {
+        console.log("sidebar", typeof setCurrentPage)
+
+    }, []);
+
+
     const deletePage = async (pageId) => {
         try {
             await axios.delete(`/api/notes/${pageId}`);
@@ -53,7 +59,6 @@ export const SideBar = ({session, pages, currentPage, handlePageChange, setPages
                     className={"cursor-pointer group"}
                 />
                 <SearchInput
-                    session={session}
                     pages={pages}
                     setPages={setPages}
                     currentPage={currentPage}
@@ -83,6 +88,7 @@ export const SideBar = ({session, pages, currentPage, handlePageChange, setPages
                         </div>
                         <TrashIcon
                             onClick={(e) => {
+                                console.log("sidebar", typeof setCurrentPage)
                                 e.stopPropagation(); // 부모 클릭 이벤트 방지
                                 console.log("clicked")
                                 deletePage(page.id);

@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from "react";
 import Search from "@/svg/Search.svg";
-import {Cookie} from "js-cookie";
+import Cookies from "js-cookie";
 
-export default function SearchInput(session, pages, setPages, currentPage, setCurrentPage, handlePageChange) {
+
+export default function SearchInput({pages, setPages, currentPage, setCurrentPage, handlePageChange}) {
     const [query, setQuery] = useState(""); // 입력값 상태
     const [debouncedQuery, setDebouncedQuery] = useState(query); // 디바운스된 입력값
     const [results, setResults] = useState([]); // 검색 결과 상태
@@ -25,7 +26,7 @@ export default function SearchInput(session, pages, setPages, currentPage, setCu
             }
 
             try {
-                const userId = Cookie.get("userId");
+                const userId = Cookies.get("userId");
                 const response = await fetch(`/api/notes?content=${debouncedQuery}&userId=${userId}`, {});
                 const data = await response.json();
                 const tempList = [];
@@ -47,12 +48,11 @@ export default function SearchInput(session, pages, setPages, currentPage, setCu
         setResults([]); // 결과 리스트 초기화
     };
 
-    const goToTargetPage = (id, pages) => {
-        console.log("click", pages.length);
+    const goToTargetPage = (id) => {
         for(let i = 0 ; i < pages.length ; i++){
             console.log("id: ", pages[i].id )
             if (pages[i].id == id){
-                handlePageChange(i);
+                handlePageChange(i)
                 break;
             }
         }
@@ -89,7 +89,7 @@ export default function SearchInput(session, pages, setPages, currentPage, setCu
                     <li
                         key={index}
                         className="p-2 text-sm border-b text-[#5f5e5b] cursor-pointer"
-                        onClick={() => goToTargetPage(item.id, pages)}
+                        onClick={() => goToTargetPage(item.id)}
                     >
                         {item.title}
                     </li>
