@@ -4,17 +4,10 @@ import {AddPage} from "./AddPage";
 import axios from "axios";
 import SearchInput from "@/components/SearchInput";
 import {useRouter} from "next/navigation";
-import {useEffect} from "react";
 
 
-export const SideBar = ({pages, currentPage, handlePageChange, setPages, setCurrentPage, userId, username, setIsEditingTitle}) => {
+export const SideBar = ({pages, currentPage, handlePageChange, setPages, setCurrentPage, userId, username}) => {
     const router = useRouter();
-
-    useEffect(() => {
-        console.log("sidebar", typeof setCurrentPage)
-
-    }, []);
-
 
     const deletePage = async (pageId) => {
         try {
@@ -25,13 +18,10 @@ export const SideBar = ({pages, currentPage, handlePageChange, setPages, setCurr
         try {
             const { data } = await axios.get("/api/notes");
             setPages(data);
-
-            // id 최대값을 찾기
             const maxId = data.length
                 ? data.reduce((max, page) => (page.id > max ? page.id : max), data[0].id)
                 : null;
-
-            setCurrentPage(maxId); // 최대 id 값을 현재 페이지로 설정
+            setCurrentPage(maxId);
         } catch (error) {
             console.error("Error fetching notes:", error);
         }
@@ -39,7 +29,6 @@ export const SideBar = ({pages, currentPage, handlePageChange, setPages, setCurr
     };
 
     const handleLogout = async () => {
-        console.log("Logout");
         const result = await axios.delete(`/api/auth/logout`);
         if (result.status == 200){
             alert("로그아웃 되었습니다.");
@@ -59,10 +48,8 @@ export const SideBar = ({pages, currentPage, handlePageChange, setPages, setCurr
                     className={"cursor-pointer group"}
                 />
                 <SearchInput
+                    userId={userId}
                     pages={pages}
-                    setPages={setPages}
-                    currentPage={currentPage}
-                    setCurrentPage={setCurrentPage}
                     handlePageChange={handlePageChange}
                 />
             </div>
@@ -76,7 +63,7 @@ export const SideBar = ({pages, currentPage, handlePageChange, setPages, setCurr
                         onClick={() => handlePageChange(index)}
                         className={`group flex items-center justify-between w-full h-10 text-sm font-semibold rounded-md cursor-pointer text-[#5f5e5b] ${
                             pages[currentPage].id === page.id
-                                ? "bg-gray-200" // 현재 페이지는 어둡게 표시
+                                ? "bg-gray-200"
                                 : "hover:bg-gray-200"
                         }`}
                     >
@@ -89,7 +76,7 @@ export const SideBar = ({pages, currentPage, handlePageChange, setPages, setCurr
                         <TrashIcon
                             onClick={(e) => {
                                 console.log("sidebar", typeof setCurrentPage)
-                                e.stopPropagation(); // 부모 클릭 이벤트 방지
+                                e.stopPropagation();
                                 console.log("clicked")
                                 deletePage(page.id);
                             }}

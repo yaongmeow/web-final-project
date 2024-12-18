@@ -9,7 +9,7 @@ export const AddPage = ({pages, setPages, setCurrentPage, userId}) => {
         try {
             const { data } = await axios.post("/api/notes", newNote);
             setPages([...pages, data]);
-            setCurrentPage(pages.length); // 새 노트의 id로 이동
+            setCurrentPage(pages.length);
         } catch (error) {
             console.error("Error creating note:", error);
         }

@@ -21,7 +21,6 @@ const AuthForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (isLogin) {
-            console.log("로그인 데이터:", formData);
             const result = await axios.post(
                 "/api/auth/login", {"username":formData.username, "password":formData.password}
             )
@@ -34,7 +33,6 @@ const AuthForm = () => {
                 alert("비밀번호가 일치하지 않습니다.");
                 return;
             }
-            console.log("회원가입 데이터:", formData);
             const result = await axios.post(
                 "/api/auth/signup", {"username":formData.username, "name":formData.name, "password":formData.password}
             )
@@ -53,7 +51,6 @@ const AuthForm = () => {
                     {isLogin ? "로그인" : "회원가입"}
                 </h2>
                 <form onSubmit={handleSubmit}>
-                    {/* 이메일 입력 */}
                     <div className="mb-4">
                         <label className="block text-gray-600 mb-2" htmlFor="username">
                             아이디
@@ -69,8 +66,6 @@ const AuthForm = () => {
                             className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                     </div>
-
-                    {/* 비밀번호 입력 */}
                     <div className="mb-4">
                         <label className="block text-gray-600 mb-2" htmlFor="password">
                             비밀번호
@@ -86,8 +81,6 @@ const AuthForm = () => {
                             className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                     </div>
-
-                    {/* 비밀번호 확인 (회원가입 시에만 표시) */}
                     {!isLogin && (
                         <div className="mb-4">
                             <label

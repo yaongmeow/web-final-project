@@ -1,32 +1,27 @@
-import React, {useState, useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import Search from "@/svg/Search.svg";
-import Cookies from "js-cookie";
 
 
-export default function SearchInput({pages, setPages, currentPage, setCurrentPage, handlePageChange}) {
-    const [query, setQuery] = useState(""); // 입력값 상태
-    const [debouncedQuery, setDebouncedQuery] = useState(query); // 디바운스된 입력값
-    const [results, setResults] = useState([]); // 검색 결과 상태
+export default function SearchInput({userId, pages, handlePageChange}) {
+    const [query, setQuery] = useState("");
+    const [debouncedQuery, setDebouncedQuery] = useState(query);
+    const [results, setResults] = useState([]);
 
-    // 입력값 변경 시 디바운싱 처리
     useEffect(() => {
         const timer = setTimeout(() => {
-            setDebouncedQuery(query); // 입력 후 300ms 동안 변화가 없으면 업데이트
+            setDebouncedQuery(query);
         }, 300);
 
-        return () => clearTimeout(timer); // 기존 타이머 제거
+        return () => clearTimeout(timer);
     }, [query]);
 
-    // 디바운스된 입력값으로 API 호출
     useEffect(() => {
         const fetchResults = async () => {
             if (debouncedQuery.trim() === "") {
-                setResults([]); // 입력값이 없으면 결과를 초기화
+                setResults([]);
                 return;
             }
-
             try {
-                const userId = Cookies.get("userId");
                 const response = await fetch(`/api/notes?content=${debouncedQuery}&userId=${userId}`, {});
                 const data = await response.json();
                 const tempList = [];
@@ -42,10 +37,9 @@ export default function SearchInput({pages, setPages, currentPage, setCurrentPag
         fetchResults();
     }, [debouncedQuery]);
 
-    // 검색 결과 초기화
     const clearResults = () => {
-        setQuery(""); // 입력창 초기화
-        setResults([]); // 결과 리스트 초기화
+        setQuery("");
+        setResults([]);
     };
 
     const goToTargetPage = (id) => {
@@ -78,12 +72,11 @@ export default function SearchInput({pages, setPages, currentPage, setCurrentPag
                         onClick={clearResults}
                         className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
                     >
-                        &#x2715; {/* Unicode 'x' 문자 */}
+                        &#x2715;
                     </button>
                 )}
             </div>
 
-            {/* 검색 결과 */}
             <ul className="mt-4">
                 {results.map((item, index) => (
                     <li

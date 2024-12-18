@@ -8,27 +8,22 @@ import {Editor} from "@/components/Editor";
 import Cookies from "js-cookie";
 
 
-
 export default function App() {
-  const [pages, setPages] = useState([]); // DB에서 가져온 노트
-  const [currentPage, setCurrentPage] = useState(0); // 현재 페이지 인덱스
-  const [isEditingTitle, setIsEditingTitle] = useState(false); // 제목 편집 상태
+  const [pages, setPages] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [username, setUsername] = useState("");
   const [userId, setUserId] = useState(0);
 
   useEffect(() => {
-    // js-cookie를 사용해 쿠키 읽기
     const usernameCookie = Cookies.get("username");
     if (usernameCookie) {
       setUsername(usernameCookie);
     }
-
     const userIdCookie = Cookies.get("userId");
-    console.log("z쿠키:", userIdCookie)
     if (userIdCookie) {
       setUserId(userIdCookie);
     }
-
     const fetchNotes = async () => {
       try {
         const { data } = await axios.get(`/api/notes?userId=${userIdCookie}`);
@@ -39,37 +34,10 @@ export default function App() {
       }
     };
     fetchNotes();
-
   }, []);
-
-
-  //
-  // useEffect(() => {
-  //   const fetchNotes = async () => {
-  //     try {
-  //       const { data } = await axios.get(`/api/notes?userId=${userId}`);
-  //       setPages(data);
-  //       setCurrentPage(0);
-  //     } catch (error) {
-  //       console.error("Error fetching notes:", error);
-  //     }
-  //   };
-  //   fetchNotes();
-  // }, []);
-
-  useEffect(() => {
-    console.log("Updated pages:", pages);
-    console.log("페이지 길이:", pages.length);
-    console.log("current page: ", currentPage)
-  }, [pages]);
-
-  useEffect(() => {
-    console.log("현재 페이지 변경")
-  }, [currentPage]);
 
   const addPage = async () => {
     const newNote = { title: `Untitled ${pages.length + 1}`, content: "" };
-
     try {
       const { data } = await axios.post("/api/notes", newNote);
       setPages([...pages, data]);
@@ -86,7 +54,6 @@ export default function App() {
             page.id === updatedNote.id ? updatedNote : page
         )
     );
-
     try {
       await axios.put(`/api/notes/${updatedNote.id}`, updatedNote);
     } catch (error) {
@@ -130,7 +97,6 @@ export default function App() {
             setCurrentPage={setCurrentPage}
             userId={userId}
             username={username}
-            setIsEditingTitle={setIsEditingTitle}
         />
         <div className="flex-2 bg-white justify-center flex-grow flex">
           <Editor

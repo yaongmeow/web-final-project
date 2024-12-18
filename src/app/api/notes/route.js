@@ -5,7 +5,6 @@ export async function GET(request) {
   const content = searchParams.get("content");
   const userId = searchParams.get("userId");
   try {
-    console.log("api:", content, userId)
     let notes
     if (content != null && typeof content !== "undefined"){
       notes = await db.note.findMany({ where: { title: { contains: content }, userId: parseInt(userId, 10) },orderBy: { id: "asc" } });
@@ -15,10 +14,7 @@ export async function GET(request) {
       if (!userId) {
         throw new Error("Invalid userId provided.");
       }
-
-      console.log("여기", userId);
       notes = await db.note.findMany({ where: { userId: parseInt(userId, 10) },orderBy: {id: "asc"}});
-      console.log("노트들:", notes);
     }
     if (notes.length === 0) {
       const newNote = await db.note.create({ data: { title: "Untitled1", content: "", userId:parseInt(userId, 10) } });
@@ -34,7 +30,6 @@ export async function POST(req) {
   try {
     const body = await req.json();
     const { title, content, userId } = body;
-    console.log("api:", content, userId)
     const newNote = await db.note.create({
       data: { title, content, userId: parseInt(userId, 10) },
     });
