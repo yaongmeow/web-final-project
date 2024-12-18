@@ -1,7 +1,8 @@
 "use client";
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const AuthForm = () => {
     const [isLogin, setIsLogin] = useState(true); // 로그인/회원가입 상태 토글
@@ -12,6 +13,11 @@ const AuthForm = () => {
         name: ""
     });
     const router = useRouter();
+    useEffect(() => {
+        if(Cookies.get("name") && Cookies.get("userId")){
+            router.push("/")
+        }
+    }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target;

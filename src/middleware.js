@@ -1,7 +1,7 @@
 import {NextResponse} from "next/server";
 
 export function middleware(req) {
-    const cookies = req.cookies.get("username");
+    const cookies = req.cookies.get("name");
     if (!cookies) {
         return NextResponse.redirect(new URL("/auth", req.url));
     }

@@ -6,19 +6,21 @@ import axios from "axios";
 import {SideBar} from "@/components/SideBar";
 import {Editor} from "@/components/Editor";
 import Cookies from "js-cookie";
+import {Modal} from "@/components/Modal";
 
 
 export default function App() {
   const [pages, setPages] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [isEditingTitle, setIsEditingTitle] = useState(false);
-  const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
   const [userId, setUserId] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    const usernameCookie = Cookies.get("username");
-    if (usernameCookie) {
-      setUsername(usernameCookie);
+    const nameCookie = Cookies.get("name");
+    if (nameCookie) {
+      setName(nameCookie);
     }
     const userIdCookie = Cookies.get("userId");
     if (userIdCookie) {
@@ -85,6 +87,14 @@ export default function App() {
     setIsEditingTitle(!isEditingTitle);
   };
 
+  const handleModalOpen = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <div className="m-0 leading-inherit antialiased">
       <div className="flex">
@@ -96,7 +106,8 @@ export default function App() {
             setPages={setPages}
             setCurrentPage={setCurrentPage}
             userId={userId}
-            username={username}
+            username={name}
+            handleModalOpen={handleModalOpen}
         />
         <div className="flex-2 bg-white justify-center flex-grow flex">
           <Editor
@@ -109,6 +120,7 @@ export default function App() {
           />
         </div>
       </div>
+      <Modal isOpen={isModalOpen} onClose={handleModalClose} setName={setName} userId={userId} />
     </div>
   );
 }

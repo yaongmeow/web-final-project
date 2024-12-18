@@ -6,7 +6,7 @@ import SearchInput from "@/components/SearchInput";
 import {useRouter} from "next/navigation";
 
 
-export const SideBar = ({pages, currentPage, handlePageChange, setPages, setCurrentPage, userId, username}) => {
+export const SideBar = ({pages, currentPage, handlePageChange, setPages, setCurrentPage, userId, username, handleModalOpen}) => {
     const router = useRouter();
 
     const deletePage = async (pageId) => {
@@ -40,6 +40,7 @@ export const SideBar = ({pages, currentPage, handlePageChange, setPages, setCurr
         <div className="flex flex-col bg-[#f7f7f5] max-w-[15rem] p-1 min-h-screen box-border">
             <Profile
                 username={username}
+                handleModalOpen={handleModalOpen}
             />
             <div className={"flex flex-col justify-items-center"}>
                 <HomeIcon/>
